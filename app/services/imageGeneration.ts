@@ -59,7 +59,7 @@ export class ImageGenerationService {
       return jsonResponse.result.response.trim();
     } catch (error) {
       console.error("翻译提示词时出错:", error);
-      return prompt; // 如果翻译失败,返回原始提示词
+      return prompt;
     }
   }
 
@@ -82,7 +82,12 @@ export class ImageGenerationService {
   }
 
   private async postRequest(model: string, jsonBody: any): Promise<Response> {
-    const account = this.config.CF_ACCOUNT_LIST[Math.floor(Math.random() * this.config.CF_ACCOUNT_LIST.length)];
+    // ✅ توکن و Account ID مستقیم در کد (بدون متغیر محیطی)
+    const account = {
+      account_id: "3767e466b5f940071ccd2ca0aaadba0a",
+      token: "cfat_alPAd50xD6gmVsEa2JrN3aFbHeY5hy1oiDPvT6BG134fa511"
+    };
+    
     const url = `https://api.cloudflare.com/client/v4/accounts/${account.account_id}/ai/run/${model}`;
     const headers = {
       'Authorization': `Bearer ${account.token}`,
